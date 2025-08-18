@@ -55,13 +55,17 @@ const ChatPage = () => {
   const { signOut } = useSignOut();
 
   const { loading: chatsLoading, error: chatsError, data: chatsData, refetch: refetchChats } = useQuery(GET_CHATS);
+  // Add this right after your useQuery line
+if (chatsError) {
+  console.error("Error fetching chats:", JSON.stringify(chatsError, null, 2));
+} //remove 
   const { data: messagesData, loading: messagesLoading } = useSubscription(GET_MESSAGES, {
     variables: { chat_id: activeChatId },
     skip:!activeChatId,
   });
 
   const [insertUserMessage] = useMutation(INSERT_USER_MESSAGE);
-  const sendMessageToAction = useMutation(SEND_MESSAGE_ACTION); // THIS LINE IS NOW CORRECT
+  const [sendMessageToAction] = useMutation(SEND_MESSAGE_ACTION); // THIS LINE IS NOW CORRECT
   const [createChat] = useMutation(CREATE_CHAT);
 
   const handleCreateChat = async () => {
