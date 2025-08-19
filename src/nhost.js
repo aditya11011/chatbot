@@ -1,4 +1,3 @@
-// src/nhost.js
 import { NhostClient } from '@nhost/nextjs';
 import { ApolloClient, HttpLink, InMemoryCache, split } from '@apollo/client';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
@@ -14,7 +13,7 @@ export const nhost = new NhostClient({
 // 2. Create Apollo Client
 export const createApolloClient = (accessToken) => {
   const httpLink = new HttpLink({
-    uri: nhost.graphql.getUrl(),
+    uri: nhost.graphql.httpUrl,
     headers: {
       Authorization: `Bearer ${accessToken}`
     }
@@ -22,7 +21,7 @@ export const createApolloClient = (accessToken) => {
 
   const wsLink = new GraphQLWsLink(
     createClient({
-      url: nhost.graphql.getWsUrl(),
+      url: nhost.graphql.wsUrl,
       connectionParams: {
         headers: {
           Authorization: `Bearer ${accessToken}`
